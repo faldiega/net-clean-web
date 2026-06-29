@@ -1,0 +1,26 @@
+﻿@model NetApp.Application.DTOs.ProductDto
+
+@{
+    ViewData["Title"] = "Delete Product";
+}
+
+<h2>Delete Product</h2>
+
+<div class="alert alert-danger">
+    Are you sure you want to delete <strong>@Model.Name</strong>?
+</div>
+
+<dl class="row">
+    <dt class="col-sm-2">Category</dt>
+    <dd class="col-sm-10">@Model.CategoryName</dd>
+    <dt class="col-sm-2">Price</dt>
+    <dd class="col-sm-10">Rp @Model.Price.ToString("N0")</dd>
+    <dt class="col-sm-2">Stock</dt>
+    <dd class="col-sm-10">@Model.Stock</dd>
+</dl>
+
+<form asp-action="Delete">
+    <input type="hidden" asp-for="ProductId" />
+    <button type="submit" class="btn btn-danger">Yes, Delete</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
