@@ -10,6 +10,7 @@ namespace NetApp.Domain.Interfaces
     public interface IProductRepository : IRepository<Product>
     {
         // Operasi khusus Product di luar CRUD standar
+        Task<IEnumerable<Product>> GetAllProduct();
         Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId);
         Task<bool> ExistsByNameAsync(string name);
     }

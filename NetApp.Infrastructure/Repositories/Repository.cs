@@ -51,6 +51,5 @@ namespace NetApp.Infrastructure.Repositories
                 await _context.SaveChangesAsync();
             }
         }
-
     }
 }

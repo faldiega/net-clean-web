@@ -26,7 +26,7 @@ namespace NetApp.Application.Services
             {
                 CategoryId = c.CategoryId,
                 Name = c.Name,
-                CreatedAt = c.CreatedAt,
+                CreatedDate = c.CreatedDate,
                 ProductCount = c.Products.Count
             });
         }
@@ -40,7 +40,7 @@ namespace NetApp.Application.Services
             {
                 CategoryId = category.CategoryId,
                 Name = category.Name,
-                CreatedAt = category.CreatedAt,
+                CreatedDate = category.CreatedDate,
                 ProductCount = category.Products.Count
             };
         }
@@ -54,7 +54,7 @@ namespace NetApp.Application.Services
             var category = new Category
             {
                 Name = dto.Name,
-                CreatedAt = DateTime.Now,
+                CreatedDate = DateTime.Now,
                 CreatedBy = "Application"
             };
 
@@ -63,15 +63,15 @@ namespace NetApp.Application.Services
 
         public async Task UpdateAsync(UpdateCategoryDto dto)
         {
-            var exists = await _categoryRepository.ExistsByNameAsync(dto.Name);
-            if (exists)
-                throw new InvalidOperationException($"Category '{dto.Name}' already exists.");
+            var category = await _categoryRepository.GetByIdAsync(dto.CategoryId);
+            if (category == null)
+                throw new KeyNotFoundException($"Category {dto.Name} not found");
 
-            var category = new Category
-            {
-                CategoryId = dto.CategoryId,
-                Name = dto.Name
-            };
+            if (dto.Name != null)
+                category.Name = dto.Name;
+
+            category.UpdatedDate = DateTime.Now;
+            category.UpdatedBy = "Application";
 
             await _categoryRepository.UpdateAsync(category);
         }

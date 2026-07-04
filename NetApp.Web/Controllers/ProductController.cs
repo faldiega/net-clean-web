@@ -68,7 +68,8 @@ public class ProductController : Controller
             Name = product.Name,
             Price = product.Price,
             Stock = product.Stock,
-            CategoryId = product.CategoryId
+            CategoryId = product.CategoryId,
+            //CreatedDate = product.CreatedDate,
         };
 
         await PopulateCategoriesAsync(dto.CategoryId);
