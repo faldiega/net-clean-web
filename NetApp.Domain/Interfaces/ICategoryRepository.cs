@@ -11,5 +11,6 @@ namespace NetApp.Domain.Interfaces
     {
         // Operasi khusus Category di luar CRUD standar
         Task<bool> ExistsByNameAsync(string name);
+        Task<IEnumerable<Category>> GetAllCategoryAsync();
     }
 }

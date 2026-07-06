@@ -21,7 +21,8 @@ namespace NetApp.Application.Services
 
         public async Task<IEnumerable<CategoryDto>> GetAllAsync()
         {
-            var categories = await _categoryRepository.GetAllAsync();
+            //var categories = await _categoryRepository.GetAllAsync();
+            var categories = await _categoryRepository.GetAllCategoryAsync();
             return categories.Select(c => new CategoryDto
             {
                 CategoryId = c.CategoryId,
