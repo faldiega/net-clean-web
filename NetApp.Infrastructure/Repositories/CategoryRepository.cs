@@ -1,5 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using NetApp.Application.DTOs;
+using NetApp.Application.Interfaces;
 using NetApp.Domain.Entities;
 using NetApp.Domain.Interfaces;
 using NetApp.Infrastructure.Data;
@@ -18,14 +21,6 @@ namespace NetApp.Infrastructure.Repositories
         public CategoryRepository(AppDbContext context) : base(context)
         {
             _ctx = context;
-        }
-
-        public async Task<IEnumerable<Category>> GetAllCategoryAsync()
-        {
-            return await _ctx.Category
-                .Where(c => c.Products.Any())
-                .Include(c => c.Products)
-                .ToListAsync();
         }
 
         public async Task<bool> ExistsByNameAsync(string name)

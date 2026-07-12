@@ -4,6 +4,7 @@ using NetApp.Domain.Entities;
 using NetApp.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,19 +18,6 @@ namespace NetApp.Application.Services
         public CategoryService(ICategoryRepository categoryRepository)
         {
             _categoryRepository = categoryRepository;
-        }
-
-        public async Task<IEnumerable<CategoryDto>> GetAllAsync()
-        {
-            //var categories = await _categoryRepository.GetAllAsync();
-            var categories = await _categoryRepository.GetAllCategoryAsync();
-            return categories.Select(c => new CategoryDto
-            {
-                CategoryId = c.CategoryId,
-                Name = c.Name,
-                CreatedDate = c.CreatedDate,
-                ProductCount = c.Products.Count
-            });
         }
 
         public async Task<CategoryDto?> GetByIdAsync(int id)
