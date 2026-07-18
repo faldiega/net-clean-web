@@ -21,16 +21,16 @@ namespace NetApp.Application.Services
 
         public async Task<IEnumerable<ProductDto>> GetAllAsync()
         {
-            var products = await _productRepository.GetAllAsync();
+            var products = await _productRepository.GetAllProduct(); 
             return products.Select(p => new ProductDto
             {
                 ProductId = p.ProductId,
                 Name = p.Name,
                 Price = p.Price,
                 Stock = p.Stock,
-                CreatedAt = p.CreatedAt,
+                CreatedDate = p.CreatedDate,
                 CategoryId = p.CategoryId,
-                CategoryName = p.Category?.Name ?? string.Empty
+                CategoryName = p.Category?.Name ?? "-"
             });
         }
 
@@ -45,7 +45,6 @@ namespace NetApp.Application.Services
                 Name = product.Name,
                 Price = product.Price,
                 Stock = product.Stock,
-                CreatedAt = product.CreatedAt,
                 CategoryId = product.CategoryId,
                 CategoryName = product.Category?.Name ?? string.Empty
             };
@@ -60,7 +59,6 @@ namespace NetApp.Application.Services
                 Name = p.Name,
                 Price = p.Price,
                 Stock = p.Stock,
-                CreatedAt = p.CreatedAt,
                 CategoryId = p.CategoryId,
                 CategoryName = p.Category?.Name ?? string.Empty
             });
@@ -78,7 +76,7 @@ namespace NetApp.Application.Services
                 Price = dto.Price,
                 Stock = dto.Stock,
                 CategoryId = dto.CategoryId,
-                CreatedAt = DateTime.Now,
+                CreatedDate = DateTime.Now,
                 CreatedBy = "Application"
             };
 
@@ -87,18 +85,24 @@ namespace NetApp.Application.Services
 
         public async Task UpdateAsync(UpdateProductDto dto)
         {
-            var exists = await _productRepository.ExistsByNameAsync(dto.Name);
-            if (exists)
-                throw new InvalidOperationException($"Product '{dto.Name}' already exists.");
+            var product = await _productRepository.GetByIdAsync(dto.ProductId);
+            if (product == null)
+                throw new KeyNotFoundException($"Product {dto.ProductId} not found");
 
-            var product = new Product
-            {
-                ProductId = dto.ProductId,
-                Name = dto.Name,
-                Price = dto.Price,
-                Stock = dto.Stock,
-                CategoryId = dto.CategoryId
-            };
+            if (dto.Name != null)
+                product.Name = dto.Name;
+
+            if (dto.Price != 0)
+                product.Price = dto.Price;
+
+            if (dto.Stock != 0)
+                product.Stock = dto.Stock;
+
+            if (dto.CategoryId != 0) 
+                product.CategoryId = dto.CategoryId;
+
+            product.UpdatedDate = DateTime.Now;
+            product.UpdatedBy = "Application";
 
             await _productRepository.UpdateAsync(product);
         }

@@ -12,8 +12,27 @@ namespace NetApp.Infrastructure.Repositories
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {
+        protected readonly AppDbContext ctx;
         public ProductRepository(AppDbContext context) : base(context)
         {
+            ctx = context;
+        }
+
+        public async Task<IEnumerable<Product>> GetAllProduct()
+        {
+            return await (from p in ctx.Product
+                          join c in ctx.Category
+                          on p.CategoryId equals c.CategoryId
+                          select new Product
+                          {
+                              ProductId = p.ProductId,
+                              Name = p.Name,
+                              Price = p.Price,
+                              Stock = p.Stock,
+                              CreatedDate = p.CreatedDate,
+                              CategoryId = p.CategoryId, 
+                              Category = c
+                          }).ToListAsync();
         }
 
         public async Task<IEnumerable<Product>> GetByCategoryAsync(int categoryId)

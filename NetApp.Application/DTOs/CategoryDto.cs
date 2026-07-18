@@ -11,7 +11,7 @@ namespace NetApp.Application.DTOs
     {
         public int CategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
-        public DateTime CreatedAt { get; set; }
+        public DateTime CreatedDate { get; set; }
         public int ProductCount { get; set; }
     }
 
@@ -26,5 +26,7 @@ namespace NetApp.Application.DTOs
     {
         public int CategoryId { get; set; }
         public string Name { get; set; } = string.Empty;
+        public string? CreatedBy { get; set; }
+        public string? UpdatedBy { get; set; }
     }
 }

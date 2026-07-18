@@ -7,16 +7,20 @@ namespace NetApp.Web.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryService _categoryService;
+        private readonly ICategoryQueryService _categoryQueryService;
 
-        public CategoryController(ICategoryService categoryService)
+        public CategoryController(
+            ICategoryService categoryService,
+            ICategoryQueryService categoryQueryService)
         {
             _categoryService = categoryService;
+            _categoryQueryService = categoryQueryService;
         }
 
         // GET: /Category
         public async Task<IActionResult> Index()
         {
-            var categories = await _categoryService.GetAllAsync();
+            var categories = await _categoryQueryService.GetAllCategoryAsync();
             return View(categories);
         }
 

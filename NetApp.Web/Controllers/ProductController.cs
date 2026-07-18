@@ -8,12 +8,14 @@ namespace NetApp.Web.Controllers;
 public class ProductController : Controller
 {
     private readonly IProductService _productService;
-    private readonly ICategoryService _categoryService;
+    //private readonly ICategoryService _categoryService;
+    private readonly ICategoryQueryService _categoryQueryService;
 
-    public ProductController(IProductService productService, ICategoryService categoryService)
+    public ProductController(IProductService productService, ICategoryQueryService categoryQueryService)
     {
         _productService = productService;
-        _categoryService = categoryService;
+        //_categoryService = categoryService;
+        _categoryQueryService = categoryQueryService;
     }
 
     // GET: /Product
@@ -68,7 +70,8 @@ public class ProductController : Controller
             Name = product.Name,
             Price = product.Price,
             Stock = product.Stock,
-            CategoryId = product.CategoryId
+            CategoryId = product.CategoryId,
+            //CreatedDate = product.CreatedDate,
         };
 
         await PopulateCategoriesAsync(dto.CategoryId);
@@ -123,7 +126,8 @@ public class ProductController : Controller
     // ── Helper ───────────────────────────────────────────────
     private async Task PopulateCategoriesAsync(int selectedId = 0)
     {
-        var categories = await _categoryService.GetAllAsync();
+        //var categories = await _categoryService.GetAllAsync();
+        var categories = await _categoryQueryService.GetAllCategoryAsync();
         ViewBag.Categories = new SelectList(categories, "CategoryId", "Name", selectedId);
     }
 }

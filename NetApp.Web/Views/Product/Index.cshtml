@@ -17,25 +17,26 @@
 <table class="table table-bordered table-hover">
     <thead class="table-dark">
         <tr>
-            <th>#</th>
+            <th>No</th>
             <th>Name</th>
             <th>Category</th>
             <th>Price</th>
             <th>Stock</th>
-            <th>Created At</th>
+            <th>Created Date</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
+        @{var sequence = 1;}
         @foreach (var item in Model)
         {
             <tr>
-                <td>@item.ProductId</td>
+                <td>@sequence</td>
                 <td>@item.Name</td>
                 <td>@item.CategoryName</td>
                 <td>Rp @item.Price.ToString("N0")</td>
                 <td>@item.Stock</td>
-                <td>@item.CreatedAt.ToString("dd MMM yyyy")</td>
+                <td>@item.CreatedDate.ToString("yyyy-MM-dd")</td>
                 <td>
                     <a asp-action="Edit" asp-route-id="@item.ProductId"
                        class="btn btn-sm btn-warning">Edit</a>
@@ -43,6 +44,7 @@
                        class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
+            sequence++;
         }
     </tbody>
 </table>
